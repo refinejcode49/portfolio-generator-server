@@ -2,6 +2,7 @@ const router = require("express").Router();
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/User.model");
+const { isAuthenticated } = require("../middlewares/jwt.middleware");
 
 //to create a user with a hashed password
 
@@ -49,7 +50,7 @@ router.post("/login", async (req, res) => {
           algorithm: "HS256",
           expiresIn: "1w",
         });
-        res.status(200).json({ message: "you are logged in!" });
+        res.status(200).json({ message: "you are logged in!", authToken });
       }
     }
   } catch (error) {
@@ -58,5 +59,9 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// 54:34 08/04/25
+// this route checks if the token is valid
+router.get("/verify", isAuthenticated, async (req, res) => {
+  console.log("here in the verify route");
+  res.status(200).json({ message: "Token valid", payload: req.payload });
+});
 module.exports = router;
