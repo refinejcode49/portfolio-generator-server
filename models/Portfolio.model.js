@@ -97,6 +97,6 @@ const portfolioSchema = new Schema(
   },
 );
 
-//const PortfolioModel = model('portfolio', portfolioSchema)
+const PortfolioModel = model("portfolio", portfolioSchema);
 
-// module.exports = PortfolioModel
+module.exports = PortfolioModel;
